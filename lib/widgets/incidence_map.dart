@@ -6,7 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong/latlong.dart';
 
-class MainMap extends StatelessWidget {
+class MainMap extends StatefulWidget {
+
+  @override
+  _MainMapState createState() => _MainMapState();
+}
+
+class _MainMapState extends State<MainMap> {
 
   static final mark = Icon(
     Icons.location_on,
