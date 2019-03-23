@@ -20,7 +20,6 @@ class MainMap extends StatelessWidget {
     color: Color(0xFF1DC7EA),
   );
 
-
   final markers = <Marker>[
     new Marker(
       width: 80.0,
@@ -53,7 +52,7 @@ class MainMap extends StatelessWidget {
     return new FlutterMap(
       options: new MapOptions(
         center: new LatLng(10.409153, -66.883417),
-        zoom: 500.0,
+        zoom: 18.0,
       ),
       layers: [
         new TileLayerOptions(
