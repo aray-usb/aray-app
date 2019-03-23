@@ -5,6 +5,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong/latlong.dart';
+import 'package:aray/styles/markers.dart';
 
 class MainMap extends StatefulWidget {
 
@@ -14,25 +15,13 @@ class MainMap extends StatefulWidget {
 
 class _MainMapState extends State<MainMap> {
 
-  static final mark = Icon(
-    Icons.location_on,
-    size: 56,
-    color: Colors.red,
-  );
-
-  static final mymark = Icon(
-    Icons.my_location,
-    size: 56,
-    color: Color(0xFF1DC7EA),
-  );
-
   final markers = <Marker>[
     new Marker(
       width: 80.0,
       height: 80.0,
       point: new LatLng(10.409153, -66.883417),
       builder: (ctx) => new Container(
-            child: mymark,
+            child: ArayMarkers.currentPosition,
           ),
     ),
     new Marker(
@@ -40,7 +29,7 @@ class _MainMapState extends State<MainMap> {
       height: 80.0,
       point: new LatLng(10.411992, -66.881605),
       builder: (ctx) => new Container(
-            child: mark,
+            child: ArayMarkers.genericMarker,
           ),
     ),
     new Marker(
@@ -48,7 +37,7 @@ class _MainMapState extends State<MainMap> {
       height: 80.0,
       point: new LatLng(10.410161, -66.882549),
       builder: (ctx) => new Container(
-            child: mark,
+            child: ArayMarkers.genericMarker,
           ),
     ),
   ];
