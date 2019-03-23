@@ -1,9 +1,42 @@
 /// Módulo para el desarrollo de widgets referentes a la vista de Créditos
 
 import 'package:flutter/material.dart';
+import 'package:package_info/package_info.dart';
 
 /// Contenedor de la descripción de créditos de la aplicación
-class CreditsBox extends StatelessWidget {
+class CreditsBox extends StatefulWidget {
+
+  @override
+  _CreditsBoxState createState() => _CreditsBoxState();
+}
+
+class _CreditsBoxState extends State<CreditsBox> {
+
+  var _version;
+  var _build;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchVersionNumber();
+  }
+
+  void fetchVersionNumber() {
+    PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
+      setState(() {
+        _version = packageInfo.version;
+        _build = packageInfo.buildNumber;
+      });
+    });
+  }
+
+  Widget getVersionWidget() {
+    if (_version == null || _build == null) {
+      return Text("Versión desconocida");
+    }
+
+    return Text("Versión $_version (build $_build)");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +53,7 @@ class CreditsBox extends StatelessWidget {
             'Aray',
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
+          getVersionWidget(),
           Text(
             'Desarrollado por Andrés Ignacio Torres y Jawil Ricauter Dodero, bajo la tutoría de la Prof. Ivette C. Martínez.',
             textAlign: TextAlign.center
