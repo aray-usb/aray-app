@@ -10,23 +10,41 @@ import 'package:aray/widgets/incidence_map.dart';
 /// ayuda.
 class HomePage extends StatelessWidget {
 
+  Widget getFloatingActionButtonRow() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: <Widget>[
+        FloatingActionButton.extended(
+          heroTag: 'ayuda',
+          icon: Icon(Icons.warning),
+          onPressed: () {
+
+          },
+          label: Text("Ayuda"),
+          backgroundColor: Colors.red,
+        ),
+        FloatingActionButton.extended(
+          heroTag: 'reporte',
+          icon: Icon(Icons.perm_device_information),
+          onPressed: () {
+
+          },
+          label: Text("Reporte"),
+          backgroundColor: Colors.blue,
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Inicio"),
+        title: Text("Aray"),
       ),
       drawer: ArayDrawer(),
       body: IncidenceMap(),
-      // TODO: Incorporar dos botones: reporte, ayuda
-      floatingActionButton: FloatingActionButton.extended(
-        icon: Icon(Icons.flare),
-        onPressed: () {
-
-        },
-        label: Text("Solicitar Ayuda"),
-        backgroundColor: Colors.red,
-      ),
+      floatingActionButton: getFloatingActionButtonRow(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
