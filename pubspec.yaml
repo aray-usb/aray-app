@@ -20,8 +20,8 @@ dependencies:
   flutter:
     sdk: flutter
 
-  flutter_map: any
-  location: ^2.1.0
+  flutter_map: ^0.5.0 # Para la creación de mapas
+  location: ^2.1.0 # Para la gestión de la ubicación de usuario
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -29,7 +29,7 @@ dependencies:
 
 dev_dependencies:
   flutter_test:
-    sdk: flutter # Para el manejo de mapas
+    sdk: flutter
   flutter_launcher_icons: any
 
 flutter_icons:
@@ -57,6 +57,9 @@ flutter:
 
   # For details regarding adding assets from package dependencies, see
   # https://flutter.io/assets-and-images/#from-packages
+
+  assets:
+    - icons/icon.png
 
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a
