@@ -46,7 +46,7 @@ class _CreditsBoxState extends State<CreditsBox> {
       child: Column(
         children: <Widget>[
           Container(
-            child: Image(image: AssetImage('images/usb.png')),
+            child: Image.asset('images/usb.png'),
             margin: const EdgeInsets.symmetric(
               vertical: 16.0,
               horizontal: 64.0
@@ -66,7 +66,7 @@ class _CreditsBoxState extends State<CreditsBox> {
           ),
           Divider(color: Colors.transparent),
           Container(
-            child: Image(image: AssetImage('images/aray.png')),
+            child: Image.asset('images/aray.png'),
             margin: const EdgeInsets.all(16.0),
           ),
           Text(
