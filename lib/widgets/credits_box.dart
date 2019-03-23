@@ -41,24 +41,10 @@ class _CreditsBoxState extends State<CreditsBox> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(16.0),
+      margin: const EdgeInsets.all(32.0),
       alignment: Alignment.center,
       child: Column(
         children: <Widget>[
-          Container(
-            child: Image(image: AssetImage('images/aray.png')),
-            margin: const EdgeInsets.all(16.0),
-          ),
-          Text(
-            'Aray',
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          getVersionWidget(),
-          Text(
-            'Desarrollado por Andrés Ignacio Torres y Jawil Ricauter Dodero, bajo la tutoría de la Prof. Ivette C. Martínez.',
-            textAlign: TextAlign.center
-          ),
-          Divider(color: Colors.transparent),
           Container(
             child: Image(image: AssetImage('images/usb.png')),
             margin: const EdgeInsets.symmetric(
@@ -76,6 +62,24 @@ class _CreditsBoxState extends State<CreditsBox> {
           ),
           Text(
             'Trimestre Enero - Marzo 2019',
+            textAlign: TextAlign.center
+          ),
+          Divider(color: Colors.transparent),
+          Container(
+            child: Image(image: AssetImage('images/aray.png')),
+            margin: const EdgeInsets.all(16.0),
+          ),
+          Text(
+            'Aray',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          getVersionWidget(),
+          Text(
+            'Desarrollado por Andrés Ignacio Torres y Jawil Ricauter Dodero.',
+            textAlign: TextAlign.center
+          ),
+          Text(
+            'Tutora: Prof. Ivette C. Martínez.',
             textAlign: TextAlign.center
           ),
         ],
