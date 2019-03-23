@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:aray/views/home.dart';
+import 'package:aray/views/credits.dart';
 
 void main() => runApp(ArayApp());
 
@@ -11,7 +12,11 @@ class ArayApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Color(0xFF1DC7EA),
       ),
-      home: HomePage(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => HomePage(),
+        '/creditos': (context) => CreditsPage(),
+      },
     );
   }
 }

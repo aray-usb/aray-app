@@ -40,6 +40,15 @@ class ArayDrawer extends Drawer {
           ),
           Divider(),
           ListTile(
+            title: Text('Créditos'),
+            leading: Icon(Icons.info_outline),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.pushNamed(context, '/creditos');
+            },
+          ),
+          Divider(),
+          ListTile(
             title: Text('Cerrar Sesión'),
             leading: Icon(Icons.exit_to_app),
             onTap: () {
