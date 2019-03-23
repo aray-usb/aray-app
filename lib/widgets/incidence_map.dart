@@ -89,7 +89,7 @@ class _IncidenceMapState extends State<IncidenceMap> {
       layers: [
         new TileLayerOptions(
             urlTemplate:
-                "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                "https://{s}.tile.openstreetmap.se/hydda/full/{z}/{x}/{y}.png",
             subdomains: ['a', 'b', 'c']),
         new MarkerLayerOptions(markers: getMarkers())
       ],
