@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong/latlong.dart';
-
+import 'package:aray/widgets/aray_drawer.dart';
 class MainMap extends StatelessWidget {
 
   static final mark = Icon(
@@ -58,52 +58,6 @@ class MainMap extends StatelessWidget {
             subdomains: ['a', 'b', 'c']),
         new MarkerLayerOptions(markers: markers)
       ],
-    );
-  }
-}
-
-class ArayDrawer extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: <Widget>[
-          UserAccountsDrawerHeader(
-            accountName: Text("Fulanito"),
-            accountEmail: Text("fulanito@usb.ve"),
-          ),
-          ListTile(
-            title: Text('Inicio'),
-            leading: Icon(Icons.home),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            title: Text('Incidencias'),
-            leading: Icon(Icons.stars),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            title: Text('Prevención'),
-            leading: Icon(Icons.list),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
-          Divider(),
-          ListTile(
-            title: Text('Cerrar Sesión'),
-            leading: Icon(Icons.exit_to_app),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
-        ],
-      ),
     );
   }
 }
