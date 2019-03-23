@@ -11,7 +11,7 @@ class ArayApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Color(0xFF1DC7EA),
       ),
-      home: HomePage(title: 'Inicio'),
+      home: HomePage(),
     );
   }
 }

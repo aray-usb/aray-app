@@ -8,13 +8,13 @@ import 'package:location/location.dart';
 import 'package:latlong/latlong.dart';
 import 'package:aray/styles/markers.dart';
 
-class MainMap extends StatefulWidget {
+class IncidenceMap extends StatefulWidget {
 
   @override
-  _MainMapState createState() => _MainMapState();
+  _IncidenceMapState createState() => _IncidenceMapState();
 }
 
-class _MainMapState extends State<MainMap> {
+class _IncidenceMapState extends State<IncidenceMap> {
 
   var _currentLocation;
   var _locationManager = new Location();
