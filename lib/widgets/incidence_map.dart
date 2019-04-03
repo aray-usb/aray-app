@@ -7,6 +7,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:location/location.dart';
 import 'package:latlong/latlong.dart';
 import 'package:aray/styles/markers.dart';
+import 'package:aray/env.dart';
 
 /// Widget que muestra el mapa de incidencias de Aray. El estado
 /// es manejado por IncidenceMapState
@@ -25,6 +26,7 @@ class _IncidenceMapState extends State<IncidenceMap> {
   var _currentLocation;
   var _locationManager = new Location();
   var _mapControler = new MapController();
+  var defaultZoom = 18.0;
 
   @override
   void initState() {
@@ -43,7 +45,7 @@ class _IncidenceMapState extends State<IncidenceMap> {
         // Actualizamos el estado para renderizar de nuevo el mapa y centrarlo en la nueva posición
         setState(() {
           _currentLocation = fetchedLocation;
-          _mapControler.move(getCurrentLocation(), 18.0);
+          updateLocation();
         });
       });
     } on Exception catch (_) {
@@ -53,6 +55,13 @@ class _IncidenceMapState extends State<IncidenceMap> {
       // TODO: Mostrar un botón para solicitar el permiso de nuevo (si se puede)
       _currentLocation = null;
     }
+  }
+
+  // TODO: Actualizar solo cuand presiona un botón
+  void updateLocation() {
+    setState(() {
+      _mapControler.move(getCurrentLocation(), this.defaultZoom);
+    });
   }
 
   /// Retorna la posición actual del usuario, si se cuenta con la información,
@@ -104,13 +113,17 @@ class _IncidenceMapState extends State<IncidenceMap> {
     return new FlutterMap(
       options: new MapOptions(
         center: getCurrentLocation(),
-        zoom: 18.0,
+        zoom: this.defaultZoom,
       ),
       layers: [
         new TileLayerOptions(
-            urlTemplate:
-                "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-            subdomains: ['a', 'b', 'c']),
+          urlTemplate: "https://api.tiles.mapbox.com/v4/"
+              "{id}/{z}/{x}/{y}@2x.png?access_token={accessToken}",
+          additionalOptions: {
+            'accessToken': ENV['MAPBOX_API_KEY'],
+            'id': 'mapbox.streets',
+          }
+        ),
         new MarkerLayerOptions(markers: getMarkers())
       ],
       mapController: this._mapControler,
