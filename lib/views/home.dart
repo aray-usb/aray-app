@@ -23,6 +23,15 @@ class HomePage extends StatelessWidget {
           label: Text("Ayuda"),
           backgroundColor: Colors.red,
         ),
+        FloatingActionButton(
+          heroTag: 'ubicar',
+          child: Icon(Icons.my_location),
+          onPressed: () {
+
+          },
+          tooltip: "Ayuda",
+          backgroundColor: Colors.blue,
+        ),
         FloatingActionButton.extended(
           heroTag: 'reporte',
           icon: Icon(Icons.perm_device_information),
@@ -30,7 +39,7 @@ class HomePage extends StatelessWidget {
 
           },
           label: Text("Reporte"),
-          backgroundColor: Colors.blue,
+          backgroundColor: Colors.orange,
         ),
       ],
     );
