@@ -45,7 +45,9 @@ class _IncidenceMapState extends State<IncidenceMap> {
       _locationManager.onLocationChanged().listen((LocationData fetchedLocation) {
         // Actualizamos el estado para renderizar de nuevo el mapa y centrarlo en la nueva posición
         setState(() {
+          print("STORED LOCATION UPDATED TO: ${getCurrentLocation()}");
           _currentLocation = fetchedLocation;
+
           if (!alreadyCentered) {
             alreadyCentered = true;
             updateLocation();
@@ -62,9 +64,8 @@ class _IncidenceMapState extends State<IncidenceMap> {
   }
 
   void updateLocation() {
-    setState(() {
-      _mapControler.move(getCurrentLocation(), this.defaultZoom);
-    });
+    print("UPDATING MAP POSITION TO ${getCurrentLocation()}");
+    _mapControler.move(getCurrentLocation(), this.defaultZoom);
   }
 
   /// Retorna la posición actual del usuario, si se cuenta con la información,
@@ -81,6 +82,11 @@ class _IncidenceMapState extends State<IncidenceMap> {
       this._currentLocation.longitude
     );
   }
+
+    MapOptions getMapOptions() => new MapOptions(
+    center: getCurrentLocation(),
+    zoom: this.defaultZoom,
+  );
 
   /// Retorna una lista de marcadores a posicionar en el mapa
   //  TODO: Obtener marcadores de la API dinámicamente según la posición
@@ -114,10 +120,7 @@ class _IncidenceMapState extends State<IncidenceMap> {
   @override
   Widget build(BuildContext context) {
     return new FlutterMap(
-      options: new MapOptions(
-        center: getCurrentLocation(),
-        zoom: this.defaultZoom,
-      ),
+      options: getMapOptions(),
       layers: [
         new TileLayerOptions(
           urlTemplate: "https://api.tiles.mapbox.com/v4/"
