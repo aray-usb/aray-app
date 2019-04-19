@@ -26,7 +26,7 @@ class _IncidenceMapState extends State<IncidenceMap> {
   var _currentLocation;
   var _locationManager = new Location();
   var _mapControler = new MapController();
-  var defaultZoom = 18.0;
+  var defaultZoom = 17.75;
 
   @override
   void initState() {
