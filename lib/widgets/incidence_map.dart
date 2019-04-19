@@ -3,18 +3,25 @@
 /// mantener el estado y actualizar las incidencias, en caso de que ocurran.
 
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
-import 'package:location/location.dart';
-import 'package:latlong/latlong.dart';
 import 'package:aray/styles/markers.dart';
 import 'package:aray/env.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong/latlong.dart';
+import 'package:location/location.dart';
 
 /// Widget que muestra el mapa de incidencias de Aray. El estado
 /// es manejado por IncidenceMapState
 class IncidenceMap extends StatefulWidget {
 
+  // Controladores del mapa y gestor de ubicaciones, inyectados
+  // desde el widget padre
+  final mapController;
+  final locationManager;
+
+  IncidenceMap(this.mapController, this.locationManager);
+
   @override
-  _IncidenceMapState createState() => _IncidenceMapState();
+  _IncidenceMapState createState() => _IncidenceMapState(this.mapController, this.locationManager);
 }
 
 /// Manejador de estado para el widget de Mapa de Incidencias. Muestra las incidencias
@@ -22,10 +29,16 @@ class IncidenceMap extends StatefulWidget {
 /// según la ubicación y el movimiento del mismo.
 class _IncidenceMapState extends State<IncidenceMap> {
 
-  // Variables para almacenar la ubicación y controles de posición y mapa
+  // Controladores del mapa y gestor de ubicaciones, inyectados
+  // desde el widget padre
+  final mapController;
+  final locationManager;
+
+  _IncidenceMapState(this.mapController, this.locationManager);
+
+  // Variables para almacenar la ubicación actual, el zoom por defecto
+  // y verificar si el mapa ya ha sido centrado (al iniciar)
   var _currentLocation;
-  var _locationManager = new Location();
-  var _mapControler = new MapController();
   var defaultZoom = 17.75;
   var alreadyCentered = false;
 
@@ -33,24 +46,25 @@ class _IncidenceMapState extends State<IncidenceMap> {
   void initState() {
     super.initState();
 
-    // Para iniciar la búsqueda de datos de ubicación
+    // Inicia la búsqueda de datos de ubicación
     initLocationState();
   }
 
   /// Obtiene la ubicación del usuario, suscribiendo el mapa de incidencias a cualquier
   /// cambio de ubicación y almacenando esta información
+  /// TODO: ¿Es realmente necesario suscribrnos a los cambios? Detalle de eficiencia
   void initLocationState() async {
     try {
       // Suscribiendo el mapa a los cambios de posición del dispositivo
-      _locationManager.onLocationChanged().listen((LocationData fetchedLocation) {
-        // Actualizamos el estado para renderizar de nuevo el mapa y centrarlo en la nueva posición
+      this.locationManager.onLocationChanged().listen((LocationData fetchedLocation) {
+        // Actualizamos el estado para renderizar de nuevo el mapa
         setState(() {
-          print("STORED LOCATION UPDATED TO: ${getCurrentLocation()}");
           _currentLocation = fetchedLocation;
 
+          // Centra el mapa si no ha sido centrado al abrir el mapa
           if (!alreadyCentered) {
             alreadyCentered = true;
-            updateLocation();
+            this.mapController.move(getCurrentLocation(), this.defaultZoom);
           }
         });
       });
@@ -61,11 +75,6 @@ class _IncidenceMapState extends State<IncidenceMap> {
       // TODO: Mostrar un botón para solicitar el permiso de nuevo (si se puede)
       _currentLocation = null;
     }
-  }
-
-  void updateLocation() {
-    print("UPDATING MAP POSITION TO ${getCurrentLocation()}");
-    _mapControler.move(getCurrentLocation(), this.defaultZoom);
   }
 
   /// Retorna la posición actual del usuario, si se cuenta con la información,
@@ -83,7 +92,9 @@ class _IncidenceMapState extends State<IncidenceMap> {
     );
   }
 
-    MapOptions getMapOptions() => new MapOptions(
+  /// Retorna el diccionario con las opciones de renderizaje del mapa,
+  /// incluyendo la ubicación de manera dinámica
+  MapOptions getMapOptions() => new MapOptions(
     center: getCurrentLocation(),
     zoom: this.defaultZoom,
   );
@@ -117,22 +128,27 @@ class _IncidenceMapState extends State<IncidenceMap> {
     ),
   ];
 
+  /// Retorna la configuración del proveedor del mapa
+  TileLayerOptions getMapProvider() => new TileLayerOptions(
+    urlTemplate: "https://api.tiles.mapbox.com/v4/"
+        "{id}/{z}/{x}/{y}@2x.png?access_token={accessToken}",
+    additionalOptions: {
+      'accessToken': ENV['MAPBOX_API_KEY'],
+      'id': 'mapbox.streets',
+    }
+  );
+
   @override
   Widget build(BuildContext context) {
     return new FlutterMap(
       options: getMapOptions(),
       layers: [
-        new TileLayerOptions(
-          urlTemplate: "https://api.tiles.mapbox.com/v4/"
-              "{id}/{z}/{x}/{y}@2x.png?access_token={accessToken}",
-          additionalOptions: {
-            'accessToken': ENV['MAPBOX_API_KEY'],
-            'id': 'mapbox.streets',
-          }
-        ),
-        new MarkerLayerOptions(markers: getMarkers())
+        getMapProvider(),
+        new MarkerLayerOptions(
+          markers: getMarkers()
+        )
       ],
-      mapController: this._mapControler,
+      mapController: this.mapController,
     );
   }
 }
