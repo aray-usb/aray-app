@@ -27,6 +27,7 @@ class _IncidenceMapState extends State<IncidenceMap> {
   var _locationManager = new Location();
   var _mapControler = new MapController();
   var defaultZoom = 17.75;
+  var alreadyCentered = false;
 
   @override
   void initState() {
@@ -45,7 +46,10 @@ class _IncidenceMapState extends State<IncidenceMap> {
         // Actualizamos el estado para renderizar de nuevo el mapa y centrarlo en la nueva posición
         setState(() {
           _currentLocation = fetchedLocation;
-          updateLocation();
+          if (!alreadyCentered) {
+            alreadyCentered = true;
+            updateLocation();
+          }
         });
       });
     } on Exception catch (_) {
@@ -57,7 +61,6 @@ class _IncidenceMapState extends State<IncidenceMap> {
     }
   }
 
-  // TODO: Actualizar solo cuand presiona un botón
   void updateLocation() {
     setState(() {
       _mapControler.move(getCurrentLocation(), this.defaultZoom);
