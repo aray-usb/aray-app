@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:aray/views/home.dart';
 import 'package:aray/views/credits.dart';
+import 'package:aray/views/incidences.dart';
 
 void main() => runApp(ArayApp());
 
@@ -16,6 +17,7 @@ class ArayApp extends StatelessWidget {
       routes: {
         '/': (context) => HomePage(),
         '/creditos': (context) => CreditsPage(),
+        '/incidencias': (context) => IncidencesPage(),
       },
     );
   }

@@ -29,6 +29,7 @@ class ArayDrawer extends Drawer {
             leading: Icon(Icons.stars),
             onTap: () {
               Navigator.pop(context);
+              Navigator.pushNamed(context, '/incidencias');
             },
           ),
           ListTile(
