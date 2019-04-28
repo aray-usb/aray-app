@@ -106,9 +106,13 @@ class _IncidenceMapState extends State<IncidenceMap> {
       width: 80.0,
       height: 80.0,
       point: getCurrentLocation(),
-      builder: (ctx) => new Container(
-            child: ArayMarkers.currentPosition,
-          ),
+      builder: (ctx) => new Tooltip(
+        child: new Container(
+          child: ArayMarkers.currentPosition,
+        ),
+        message: "Tu ubicación",
+        excludeFromSemantics: true,
+      ),
     ),
     new Marker(
       width: 80.0,
