@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:aray/views/home.dart';
 import 'package:aray/views/credits.dart';
 import 'package:aray/views/incidences.dart';
+import 'package:aray/styles/colors.dart';
 
 void main() => runApp(ArayApp());
 
@@ -11,7 +12,7 @@ class ArayApp extends StatelessWidget {
     return MaterialApp(
       title: 'Aray',
       theme: ThemeData(
-        primaryColor: Color(0xFF1DC7EA),
+        primaryColor: ArayColors.primary,
       ),
       initialRoute: '/',
       routes: {
