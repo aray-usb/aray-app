@@ -39,7 +39,7 @@ class APIService {
   /// de no serlo, arroja una excepción con el mensaje correspondiente.
   void validateResponse(statusCode, responseBody) {
     if (200 < statusCode || statusCode >= 300) {
-      throw APIException(responseBody['details'], code: statusCode);
+      throw APIException(responseBody['detail'], code: statusCode);
     }
   }
 
