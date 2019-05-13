@@ -1,6 +1,7 @@
 /// Módulo para el desarrollo de la vista inicial de Aray
 
 import 'package:flutter/material.dart';
+import 'package:aray/services/api.dart';
 import 'package:aray/widgets/aray_drawer.dart';
 import 'package:aray/widgets/incidence_map.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -25,6 +26,7 @@ class _HomePageState extends State<HomePage> {
   // inyectar desde la vista hacia el widget de mapa de incidencias
   final _mapController = new MapController();
   final _locationManager = new Location();
+  final _apiService = new APIService();
 
   /// Retorna la última ubicación conocida del usuario.
   /// INFO: Actualmente, solicita la ubicación de nuevo con poca precisión.
@@ -83,9 +85,7 @@ class _HomePageState extends State<HomePage> {
         FloatingActionButton(
           heroTag: 'ubicar',
           child: Icon(Icons.my_location),
-          onPressed: () => {
-            centrarMapa()
-          },
+          onPressed: () => centrarMapa(),
           tooltip: "Ayuda",
           backgroundColor: Colors.blue,
         ),
@@ -110,7 +110,7 @@ class _HomePageState extends State<HomePage> {
         title: Text("Aray"),
       ),
       drawer: ArayDrawer(),
-      body: IncidenceMap(this._mapController, this._locationManager),
+      body: IncidenceMap(this._mapController, this._locationManager, this._apiService),
       floatingActionButton: getFloatingActionButtonRow(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );

@@ -3,8 +3,10 @@
 /// mantener el estado y actualizar las incidencias, en caso de que ocurran.
 
 import 'package:flutter/material.dart';
+import 'package:aray/services/api.dart';
 import 'package:aray/styles/markers.dart';
 import 'package:aray/env.dart';
+import 'package:aray/models/reporte.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong/latlong.dart';
 import 'package:location/location.dart';
@@ -14,14 +16,15 @@ import 'package:location/location.dart';
 class IncidenceMap extends StatefulWidget {
 
   // Controladores del mapa y gestor de ubicaciones, inyectados
-  // desde el widget padre
+  // desde el widget padre, y servicio de la API
   final mapController;
   final locationManager;
+  final apiService;
 
-  IncidenceMap(this.mapController, this.locationManager);
+  IncidenceMap(this.mapController, this.locationManager, this.apiService);
 
   @override
-  _IncidenceMapState createState() => _IncidenceMapState(this.mapController, this.locationManager);
+  _IncidenceMapState createState() => _IncidenceMapState(this.mapController, this.locationManager, this.apiService);
 }
 
 /// Manejador de estado para el widget de Mapa de Incidencias. Muestra las incidencias
@@ -30,11 +33,12 @@ class IncidenceMap extends StatefulWidget {
 class _IncidenceMapState extends State<IncidenceMap> {
 
   // Controladores del mapa y gestor de ubicaciones, inyectados
-  // desde el widget padre
+  // desde el widget padre, y servicio de la API
   final mapController;
   final locationManager;
+  final apiService;
 
-  _IncidenceMapState(this.mapController, this.locationManager);
+  _IncidenceMapState(this.mapController, this.locationManager, this.apiService);
 
   // Variables para almacenar la ubicación actual, el zoom por defecto
   // y verificar si el mapa ya ha sido centrado (al iniciar)
@@ -42,12 +46,30 @@ class _IncidenceMapState extends State<IncidenceMap> {
   var defaultZoom = 17.75;
   var alreadyCentered = false;
 
+  // Variables para almacenar los marcadores, y poder cargar el mapa
+  // al inicio mientras se espera por los mismos
+  var markersAlreadyFetched = false;
+  List<Marker> markers = [];
+
   @override
   void initState() {
     super.initState();
 
     // Inicia la búsqueda de datos de ubicación
     initLocationState();
+
+    // Inicia la búsqueda de marcadores para el mapa (reportes)
+    initMarkerFetch();
+  }
+
+  /// Obtiene el arreglo de marcadores de la API si no se han obtenido previamente
+  void initMarkerFetch() async {
+    await this.apiService.initClient();
+    this.markers = await getMarkers();
+
+    setState(() {
+      this.markersAlreadyFetched = true;
+    });
   }
 
   /// Obtiene la ubicación del usuario, suscribiendo el mapa de incidencias a cualquier
@@ -99,10 +121,9 @@ class _IncidenceMapState extends State<IncidenceMap> {
     zoom: this.defaultZoom,
   );
 
-  /// Retorna una lista de marcadores a posicionar en el mapa
-  //  TODO: Obtener marcadores de la API dinámicamente según la posición
-  List<Marker> getMarkers() => <Marker>[
-    new Marker(
+  /// Retorna un marcador con la ubicación actual del usuario
+  Marker getCurrentPositionMarker() {
+    return Marker(
       width: 80.0,
       height: 80.0,
       point: getCurrentLocation(),
@@ -113,24 +134,19 @@ class _IncidenceMapState extends State<IncidenceMap> {
         message: "Tu ubicación",
         excludeFromSemantics: true,
       ),
-    ),
-    new Marker(
-      width: 80.0,
-      height: 80.0,
-      point: new LatLng(10.411992, -66.881605),
-      builder: (ctx) => new Container(
-            child: ArayMarkers.genericMarker,
-          ),
-    ),
-    new Marker(
-      width: 80.0,
-      height: 80.0,
-      point: new LatLng(10.410161, -66.882549),
-      builder: (ctx) => new Container(
-            child: ArayMarkers.genericMarker,
-          ),
-    ),
-  ];
+    );
+  }
+
+  /// Retorna una lista de marcadores a posicionar en el mapa
+  Future<List<Marker>> getMarkers() async {
+    List<Reporte> reportes = await this.apiService.getReportes(
+      position: getCurrentLocation()
+    );
+
+    List<Marker> APIMarkers = reportes.map((reporte) => reporte.marker).toList();
+
+    return APIMarkers;
+  }
 
   /// Retorna la configuración del proveedor del mapa
   TileLayerOptions getMapProvider() => new TileLayerOptions(
@@ -144,12 +160,13 @@ class _IncidenceMapState extends State<IncidenceMap> {
 
   @override
   Widget build(BuildContext context) {
+
     return new FlutterMap(
       options: getMapOptions(),
       layers: [
         getMapProvider(),
         new MarkerLayerOptions(
-          markers: getMarkers()
+          markers: [getCurrentPositionMarker()] + this.markers,
         )
       ],
       mapController: this.mapController,
