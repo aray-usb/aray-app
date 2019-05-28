@@ -1,6 +1,7 @@
 /// Módulo para el desarrollo de la vista inicial de Aray
 
 import 'package:flutter/material.dart';
+import 'package:aray/widgets/reporte_form.dart';
 import 'package:aray/services/api.dart';
 import 'package:aray/widgets/aray_drawer.dart';
 import 'package:aray/widgets/incidence_map.dart';
@@ -69,7 +70,7 @@ class _HomePageState extends State<HomePage> {
 
   /// Retorna la fila de botones FAB para permitir al usuario
   /// interactuar con el mapa
-  Widget getFloatingActionButtonRow() {
+  Widget getFloatingActionButtonRow(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
@@ -93,7 +94,10 @@ class _HomePageState extends State<HomePage> {
           heroTag: 'reporte',
           icon: Icon(Icons.perm_device_information),
           onPressed: () {
-
+            showDialog(
+              context: context,
+              builder: (BuildContext context) => ReporteForm(),
+            );
           },
           label: Text("Reporte"),
           backgroundColor: Colors.orange,
@@ -111,7 +115,7 @@ class _HomePageState extends State<HomePage> {
       ),
       drawer: ArayDrawer(),
       body: IncidenceMap(this._mapController, this._locationManager, this._apiService),
-      floatingActionButton: getFloatingActionButtonRow(),
+      floatingActionButton: getFloatingActionButtonRow(context),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
