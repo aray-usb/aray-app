@@ -61,7 +61,7 @@ class _CreditsBoxState extends State<CreditsBox> {
             textAlign: TextAlign.center
           ),
           Text(
-            'Trimestre Enero - Marzo 2019',
+            'Enero - Mayo 2019',
             textAlign: TextAlign.center
           ),
           Divider(color: Colors.transparent),
@@ -82,8 +82,9 @@ class _CreditsBoxState extends State<CreditsBox> {
             'Tutora: Prof. Ivette C. Martínez.',
             textAlign: TextAlign.center
           ),
+          Divider(color: Colors.transparent),
           Text(
-            'Agradecimientos a Sthefania Del Valle por la música sacada de su iPod.',
+            'Agradecimientos a Sthefania Del Valle por inspirarnos con la música sacada de su iPod.',
             textAlign: TextAlign.center
           ),
         ],
