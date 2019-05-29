@@ -3,6 +3,7 @@
 
 import 'dart:async';
 import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:latlong/latlong.dart';
 import 'package:aray/env.dart';
@@ -48,31 +49,17 @@ class APIService {
     }
   }
 
-  /// Solicita un token de autenticación válido para la conexión con el servidor.
+  /// Retorna un token de autenticación válido para la conexión con el servidor
+  /// o genera un error en caso de que sea inválido.
   Future<String> getToken() async {
-    final url = APIService.apiBaseUrl + 'tokens/get/';
-
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
-      // TODO: Utilizar credenciales de autenticación del usuario
-      final response = await http.post(
-        url,
-        body: {
-          'username': ENV['API_USERNAME'],
-          'password': ENV['API_PASSWORD']
-        }
-      );
-
-      // Parseamos la respuesta como JSON
-      dynamic responseJson = json.decode(response.body);
-      validateResponse(response.statusCode, responseJson);
-
-      // Obtenemos el token
-      String token = responseJson['token'];
+      // TODO: Consider token validity
+      final String token = prefs.getString('token');
       return token;
     } catch (e) {
-      // TODO: Mejorar el manejo de errores del servicio.
-      print(e);
-      throw e;
+      // TODO: Improve exception handling
+      throw AuthException("No existe un token almacenado en el dispositivo.");
     }
   }
 

@@ -46,7 +46,7 @@ class _CreditsBoxState extends State<CreditsBox> {
       child: Column(
         children: <Widget>[
           Container(
-            child: Image.asset('images/usb.png'),
+            child: Image.asset('assets/images/usb.png'),
             margin: const EdgeInsets.symmetric(
               vertical: 16.0,
               horizontal: 64.0
@@ -61,12 +61,12 @@ class _CreditsBoxState extends State<CreditsBox> {
             textAlign: TextAlign.center
           ),
           Text(
-            'Trimestre Enero - Marzo 2019',
+            'Enero - Mayo 2019',
             textAlign: TextAlign.center
           ),
           Divider(color: Colors.transparent),
           Container(
-            child: Image.asset('images/aray.png'),
+            child: Image.asset('assets/images/aray.png'),
             margin: const EdgeInsets.all(16.0),
           ),
           Text(
@@ -80,6 +80,11 @@ class _CreditsBoxState extends State<CreditsBox> {
           ),
           Text(
             'Tutora: Prof. Ivette C. Martínez.',
+            textAlign: TextAlign.center
+          ),
+          Divider(color: Colors.transparent),
+          Text(
+            'Agradecimientos a Sthefania Del Valle por inspirarnos con la música sacada de su iPod.',
             textAlign: TextAlign.center
           ),
         ],

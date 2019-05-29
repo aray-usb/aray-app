@@ -11,7 +11,7 @@ description: Aplicación móvil de Aray, software de respuesta ante emergencias
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 0.0.1+1
+version: 0.0.3+1
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
@@ -20,9 +20,11 @@ dependencies:
   flutter:
     sdk: flutter
 
-  flutter_map: ^0.5.0+1 # Para la creación de mapas
+  flutter_map: ^0.5.3 # Para la creación de mapas
   location: ^2.3.5 # Para la gestión de la ubicación de usuario
   package_info: ^0.4.0+3 # Para mostrar información de versión del app en Créditos
+  font_awesome_flutter: ^8.4.0 # Para mostrar íconos de Font Awesome
+  shared_preferences: any # Para el manejo del localstorage
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -60,8 +62,21 @@ flutter:
   # https://flutter.io/assets-and-images/#from-packages
 
   assets:
-    - images/aray.png
-    - images/usb.png
+    - assets/images/aray.png
+    - assets/images/aray-full.png
+    - assets/images/usb.png
+  fonts:
+    - family: WorkSansSemiBold
+      fonts:
+        - asset: assets/fonts/Work_Sans/WorkSans-SemiBold.ttf
+
+    - family: WorkSansBold
+      fonts:
+        - asset: assets/fonts/Work_Sans/WorkSans-Bold.ttf
+
+    - family: WorkSansMedium
+      fonts:
+        - asset: assets/fonts/Work_Sans/WorkSans-Medium.ttf
 
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a
