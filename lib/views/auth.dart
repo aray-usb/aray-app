@@ -75,6 +75,20 @@ class _LoginPageState extends State<LoginPage>
   // Color de ltexto de la pestaña derecha
   Color rightButtonColor = Colors.white;
 
+  // Estilo para los campos de texto del flujo de login y registro
+  static const TextStyle textFieldStyle = const TextStyle(
+    fontFamily: "WorkSansSemiBold",
+    fontSize: 16.0,
+    color: Colors.black,
+  );
+
+  // Separador de campos en el formulario de login y registro
+  final Container _divider = Container(
+    width: 250.0,
+    height: 1.0,
+    color: Colors.grey[400],
+  );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -203,11 +217,7 @@ class _LoginPageState extends State<LoginPage>
                         ),
                       ),
                     ),
-                    Container(
-                      width: 250.0,
-                      height: 1.0,
-                      color: Colors.grey[400],
-                    ),
+                    _divider,
                     Padding(
                       padding: EdgeInsets.only(
                         top: 20.0,
@@ -323,11 +333,7 @@ class _LoginPageState extends State<LoginPage>
                         focusNode: registerUsernameFocusNode,
                         controller: registerUsernameController,
                         keyboardType: TextInputType.text,
-                        style: TextStyle(
-                          fontFamily: "WorkSansSemiBold",
-                          fontSize: 16.0,
-                          color: Colors.black,
-                        ),
+                        style: textFieldStyle,
                         decoration: InputDecoration(
                           border: InputBorder.none,
                           icon: Icon(
@@ -342,11 +348,7 @@ class _LoginPageState extends State<LoginPage>
                         ),
                       ),
                     ),
-                    Container(
-                      width: 250.0,
-                      height: 1.0,
-                      color: Colors.grey[400],
-                    ),
+                    _divider,
                     Padding(
                       padding: EdgeInsets.only(
                         top: 20.0,
@@ -358,11 +360,7 @@ class _LoginPageState extends State<LoginPage>
                         focusNode: registerEmailFocusNode,
                         controller: registerEmailController,
                         keyboardType: TextInputType.emailAddress,
-                        style: TextStyle(
-                          fontFamily: "WorkSansSemiBold",
-                          fontSize: 16.0,
-                          color: Colors.black,
-                        ),
+                        style: textFieldStyle,
                         decoration: InputDecoration(
                           border: InputBorder.none,
                           icon: Icon(
@@ -377,11 +375,7 @@ class _LoginPageState extends State<LoginPage>
                         ),
                       ),
                     ),
-                    Container(
-                      width: 250.0,
-                      height: 1.0,
-                      color: Colors.grey[400],
-                    ),
+                    _divider,
                     Padding(
                       padding: EdgeInsets.only(
                         top: 20.0,
@@ -393,11 +387,7 @@ class _LoginPageState extends State<LoginPage>
                         focusNode: registerPasswordFocusNode,
                         controller: registerPasswordController,
                         obscureText: _obscureRegisterPassword,
-                        style: TextStyle(
-                          fontFamily: "WorkSansSemiBold",
-                          fontSize: 16.0,
-                          color: Colors.black,
-                        ),
+                        style: textFieldStyle,
                         decoration: InputDecoration(
                           border: InputBorder.none,
                           icon: Icon(
@@ -420,11 +410,7 @@ class _LoginPageState extends State<LoginPage>
                         ),
                       ),
                     ),
-                    Container(
-                      width: 250.0,
-                      height: 1.0,
-                      color: Colors.grey[400],
-                    ),
+                    _divider,
                     Padding(
                       padding: EdgeInsets.only(
                         top: 20.0,
@@ -435,11 +421,7 @@ class _LoginPageState extends State<LoginPage>
                       child: TextField(
                         controller: registerPasswordConfirmController,
                         obscureText: _obscureRegisterPasswordConfirm,
-                        style: TextStyle(
-                          fontFamily: "WorkSansSemiBold",
-                          fontSize: 16.0,
-                          color: Colors.black,
-                        ),
+                        style: textFieldStyle,
                         decoration: InputDecoration(
                           border: InputBorder.none,
                           icon: Icon(
@@ -622,9 +604,9 @@ class _LoginPageState extends State<LoginPage>
         value,
         textAlign: TextAlign.center,
         style: TextStyle(
-            color: Colors.white,
-            fontSize: 16.0,
-            fontFamily: "WorkSansSemiBold"),
+        color: Colors.white,
+        fontSize: 16.0,
+        fontFamily: "WorkSansSemiBold"),
       ),
       backgroundColor: Colors.blue,
       duration: Duration(seconds: 3),
