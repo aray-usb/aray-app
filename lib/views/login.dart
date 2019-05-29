@@ -5,8 +5,11 @@ import 'dart:ui';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:aray/views/home.dart';
+import 'package:aray/services/auth.dart';
 import 'package:aray/styles/colors.dart';
 import 'package:aray/widgets/tab_painter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key key}) : super(key: key);
@@ -18,11 +21,17 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage>
   with SingleTickerProviderStateMixin {
 
+  // Manejador de autenticación con el servidor
+  final authService = AuthService();
+
   // Key para identificar el estado actual del Scaffold (widget)
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   // Controlador para manejar visibilidad, animaciones y estado de la página
   PageController _pageController;
+
+  // Determina si se debe mostrar el splashScreen
+  bool showSplash = true;
 
   // Focus Nodes para registrar la interacción (focus) con cada uno de los campos
   // del formulario
@@ -91,6 +100,11 @@ class _LoginPageState extends State<LoginPage>
 
   @override
   Widget build(BuildContext context) {
+
+    if (showSplash) {
+      return getSplashScreen();
+    }
+
     return Scaffold(
       key: _scaffoldKey,
       body: NotificationListener<OverscrollIndicatorNotification>(
@@ -291,8 +305,25 @@ class _LoginPageState extends State<LoginPage>
                   ),
                 ),
                 onPressed: () {
-                  // Logica de login
-                  showInSnackBar("Login button pressed");
+                  final String username = loginUsernameController.text;
+                  final String password = loginPasswordController.text;
+                  try {
+                    final token = authService.getToken(username, password);
+                    token.then((tk) {
+                      if (tk != null) {
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                            builder: (BuildContext context) => HomePage()
+                          )
+                        );
+                      } else {
+                        showInSnackBar("Credenciales incorrectas");
+                      }
+                    });
+                  } catch (e) {
+                    print(e);
+                    showInSnackBar("Ocurrió un error de servidor");
+                  }
                 },
               ),
             ),
@@ -608,14 +639,56 @@ class _LoginPageState extends State<LoginPage>
         fontSize: 16.0,
         fontFamily: "WorkSansSemiBold"),
       ),
-      backgroundColor: Colors.blue,
+      backgroundColor: Colors.red,
       duration: Duration(seconds: 3),
     ));
   }
 
+  Future<void> checkIfLoggedIn() async {
+    try {
+      // Intentamos obtener el token
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      final String token = prefs.getString('token');
+      final bool isValid = await authService.verifyToken(token);
+
+      if (isValid) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (BuildContext context) => HomePage()
+          )
+        );
+      } else {
+        setState(() {
+          showSplash = false;
+        });
+      }
+    } catch (e) {
+      setState(() {
+        showSplash = false;
+      });
+    }
+  }
+
+  Widget getSplashScreen() => Scaffold(
+    body: Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Image.asset('assets/images/aray-full.png'),
+          CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(
+              ArayColors.primary,
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+
   @override
   void initState() {
     super.initState();
+    checkIfLoggedIn();
 
     // Forzamos a que la vista se muestre en portrait, no en landscape
     SystemChrome.setPreferredOrientations([
