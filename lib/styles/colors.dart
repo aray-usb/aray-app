@@ -10,14 +10,29 @@ class ArayColors {
   static const Color secondary = const Color(0xFFFF6858);
 
   // Colores de gradiente para Login
-  static const Color loginGradientStart = const Color(0xFFfbab66);
-  static const Color loginGradientEnd = const Color(0xFFf7418c);
+  static const Color loginGradientStart = const Color(0xFFFBAB66);
+  static const Color loginGradientEnd = const Color(0xFFF7418C);
+  static const List<Color> primaryGradientColors = const [loginGradientStart, loginGradientEnd];
 
   // Gradiente principal para Login
   static const LinearGradient primaryGradient = const LinearGradient(
-    colors: const [loginGradientStart, loginGradientEnd],
+    colors: primaryGradientColors,
     stops: const [0.0, 1.0],
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
   );
+
+  // Sombra en gradiente para el Login
+  static const List<BoxShadow> primaryGradientBoxShadows = const <BoxShadow>[
+    BoxShadow(
+      color: ArayColors.loginGradientStart,
+      offset: Offset(1.0, 6.0),
+      blurRadius: 20.0,
+    ),
+    BoxShadow(
+      color: ArayColors.loginGradientEnd,
+      offset: Offset(1.0, 6.0),
+      blurRadius: 20.0,
+    ),
+  ];
 }
