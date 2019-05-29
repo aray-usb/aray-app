@@ -172,4 +172,10 @@ class _IncidenceMapState extends State<IncidenceMap> {
       mapController: this.mapController,
     );
   }
+
+  @override
+  void dispose() {
+    super.dispose();
+    // TODO: Dispose of the event listeners
+  }
 }
