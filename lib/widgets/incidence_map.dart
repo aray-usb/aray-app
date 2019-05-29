@@ -51,6 +51,9 @@ class _IncidenceMapState extends State<IncidenceMap> {
   var markersAlreadyFetched = false;
   List<Marker> markers = [];
 
+  // Variable para almacenar el suscriptor a los cambios de ubicacion
+  var locationSubscription;
+
   @override
   void initState() {
     super.initState();
@@ -78,7 +81,7 @@ class _IncidenceMapState extends State<IncidenceMap> {
   void initLocationState() async {
     try {
       // Suscribiendo el mapa a los cambios de posición del dispositivo
-      this.locationManager.onLocationChanged().listen((LocationData fetchedLocation) {
+      this.locationSubscription = this.locationManager.onLocationChanged().listen((LocationData fetchedLocation) {
         // Actualizamos el estado para renderizar de nuevo el mapa
         setState(() {
           _currentLocation = fetchedLocation;
@@ -176,6 +179,8 @@ class _IncidenceMapState extends State<IncidenceMap> {
   @override
   void dispose() {
     super.dispose();
-    // TODO: Dispose of the event listeners
+    if (this.locationSubscription != null) {
+      this.locationSubscription.cancel();
+    }
   }
 }
