@@ -17,7 +17,12 @@ class ReporteForm extends StatelessWidget {
           children: <Widget>[
             Padding(
               padding: EdgeInsets.all(8.0),
-              child: TextFormField(),
+              child: TextFormField(
+                decoration: InputDecoration(
+                  hintText: "Descripción",
+                  icon: Icon(Icons.list),
+                ),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
