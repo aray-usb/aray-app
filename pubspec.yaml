@@ -62,6 +62,7 @@ flutter:
 
   assets:
     - assets/images/aray.png
+    - assets/images/aray-full.png
     - assets/images/usb.png
   fonts:
     - family: WorkSansSemiBold
