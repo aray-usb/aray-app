@@ -32,3 +32,16 @@ class APIException implements Exception {
 
   String toString() => "APIException: $details";
 }
+
+/// Excepción personalizada para manejar errores generados
+/// por la autenticación, incluyendo el mensaje de detalles y,
+/// opcionalmente, el código de la petición.
+class AuthException implements Exception {
+
+  final String details;
+  int code;
+
+  AuthException(this.details, {this.code});
+
+  String toString() => "AuthException: $details";
+}
