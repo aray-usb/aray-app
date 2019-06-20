@@ -30,7 +30,7 @@ class APIService {
   /// Este método puede ser llamad múltiples veces con seguridad.
   Future<void> initClient() async {
     // Verificamos si el token ya ha sido obtenido
-    if (this.client == null) {
+    if (this.client == null || this.apiToken == null) {
       this.apiToken = await this.getToken();
 
       // Instanciamos el cliente
@@ -56,6 +56,10 @@ class APIService {
     try {
       // TODO: Consider token validity
       final String token = prefs.getString('token');
+
+      if (token == null) {
+        throw AuthException("No existe un token almacenado en el dispositivo.");
+      }
       return token;
     } catch (e) {
       // TODO: Improve exception handling
