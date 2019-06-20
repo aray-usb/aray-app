@@ -33,18 +33,13 @@ class _HomePageState extends State<HomePage> {
   /// INFO: Actualmente, solicita la ubicación de nuevo con poca precisión.
   /// TODO: Refactorizar. Esperar respuesta a PR en el repositorio del plugin location.
   Future<LocationData> getlastKnownLocation() async {
-    // Configura el manejador para tener poca precisión
+    // Configura el manejador para tener mayor precisión
     this._locationManager.changeSettings(
-      accuracy: LocationAccuracy.POWERSAVE
+      accuracy: LocationAccuracy.HIGH
     );
 
     // Obtiene la ubicación del usuario
     var currentLocation = await _locationManager.getLocation();
-
-    // Reestablece la precisión del manejador antes de retornar
-    this._locationManager.changeSettings(
-      accuracy: LocationAccuracy.HIGH
-    );
 
     return currentLocation;
   }
