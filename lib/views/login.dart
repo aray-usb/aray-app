@@ -105,75 +105,78 @@ class _LoginPageState extends State<LoginPage>
       return getSplashScreen();
     }
 
-    return Scaffold(
-      key: _scaffoldKey,
-      body: NotificationListener<OverscrollIndicatorNotification>(
-        onNotification: (overscroll) {
-          // Esto permite manejar el comportamiento estético al intentar
-          // hacer overscroll de la página
-          overscroll.disallowGlow();
-        },
-        child: SingleChildScrollView(
-          child: Container(
-            width: MediaQuery.of(context).size.width, // Full width del dispositivo
-            height: MediaQuery.of(context).size.width >= 775.0
-              ? MediaQuery.of(context).size.width
-              : 775.0, // Height máximo
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: ArayColors.primaryGradientColors,
-                begin: const FractionalOffset(0.0, 0.0),
-                end: const FractionalOffset(1.0, 1.0),
-                stops: [0.0, 1.0],
-                tileMode: TileMode.clamp,
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        key: _scaffoldKey,
+        body: NotificationListener<OverscrollIndicatorNotification>(
+          onNotification: (overscroll) {
+            // Esto permite manejar el comportamiento estético al intentar
+            // hacer overscroll de la página
+            overscroll.disallowGlow();
+          },
+          child: SingleChildScrollView(
+            child: Container(
+              width: MediaQuery.of(context).size.width, // Full width del dispositivo
+              height: MediaQuery.of(context).size.width >= 775.0
+                ? MediaQuery.of(context).size.width
+                : 775.0, // Height máximo
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: ArayColors.primaryGradientColors,
+                  begin: const FractionalOffset(0.0, 0.0),
+                  end: const FractionalOffset(1.0, 1.0),
+                  stops: [0.0, 1.0],
+                  tileMode: TileMode.clamp,
+                ),
               ),
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget> [
-                Padding(
-                  padding: EdgeInsets.only(top: 100.0, bottom: 20.0),
-                  child: Image(
-                    width: 130.0,
-                    height: 130.0,
-                    fit: BoxFit.fill,
-                    image: AssetImage('assets/images/aray-full.png'),
-                  )
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: 20.0),
-                  child: _buildMenuBar(context),
-                ),
-                Expanded(
-                  flex: 2,
-                  child: PageView(
-                    controller: _pageController,
-                    onPageChanged: (i) {
-                      if (i == 0) {
-                        setState(() {
-                          rightButtonColor = Colors.white;
-                          leftButtonColor = Colors.black;
-                        });
-                      } else if (i == 1) {
-                        setState(() {
-                          rightButtonColor = Colors.black;
-                          leftButtonColor = Colors.white;
-                        });
-                      }
-                    },
-                    children: <Widget>[
-                      ConstrainedBox(
-                        constraints: const BoxConstraints.expand(),
-                        child: _buildLogin(context),
-                      ),
-                      ConstrainedBox(
-                        constraints: const BoxConstraints.expand(),
-                        child: _buildRegister(context),
-                      ),
-                    ],
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: <Widget> [
+                  Padding(
+                    padding: EdgeInsets.only(top: 100.0, bottom: 20.0),
+                    child: Image(
+                      width: 130.0,
+                      height: 130.0,
+                      fit: BoxFit.fill,
+                      image: AssetImage('assets/images/aray-full.png'),
+                    )
                   ),
-                ),
-              ],
+                  Padding(
+                    padding: EdgeInsets.only(top: 20.0),
+                    child: _buildMenuBar(context),
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: PageView(
+                      controller: _pageController,
+                      onPageChanged: (i) {
+                        if (i == 0) {
+                          setState(() {
+                            rightButtonColor = Colors.white;
+                            leftButtonColor = Colors.black;
+                          });
+                        } else if (i == 1) {
+                          setState(() {
+                            rightButtonColor = Colors.black;
+                            leftButtonColor = Colors.white;
+                          });
+                        }
+                      },
+                      children: <Widget>[
+                        ConstrainedBox(
+                          constraints: const BoxConstraints.expand(),
+                          child: _buildLogin(context),
+                        ),
+                        ConstrainedBox(
+                          constraints: const BoxConstraints.expand(),
+                          child: _buildRegister(context),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -669,18 +672,21 @@ class _LoginPageState extends State<LoginPage>
     }
   }
 
-  Widget getSplashScreen() => Scaffold(
-    body: Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Image.asset('assets/images/aray-full.png'),
-          CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(
-              ArayColors.primary,
+  Widget getSplashScreen() => WillPopScope(
+    onWillPop: () async => false,
+    child: Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Image.asset('assets/images/aray-full.png'),
+            CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(
+                ArayColors.primary,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     ),
   );
