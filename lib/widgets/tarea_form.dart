@@ -88,7 +88,7 @@ class _AyudaFormState extends State<TareaForm> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: FlatButton(
-                child: Text("¡Ayuda!"),
+                child: Text("Crear Tarea"),
                 color: ArayColors.primary,
                 onPressed: () async {
                   if (TareaForm._formKey.currentState.validate()) {
