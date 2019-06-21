@@ -116,4 +116,35 @@ class APIService {
       throw e;
     }
   }
+
+  /// Crea un nuevo reporte en la plataforma
+  Future<dynamic> createReporte(
+    latitud,
+    longitud,
+    incidenciaId,
+    contenido
+  ) async {
+    String url = APIService.apiBaseUrl + 'reportes/';
+
+    print(latitud);
+    print(longitud);
+    print(incidenciaId);
+    print(contenido);
+
+
+      // Esperamos la inicialización del cliente
+      await initClient();
+      final response = await this.client.post(
+        url,
+        body: {
+          'latitud': latitud.toString(),
+          'longitud': longitud.toString(),
+          'incidencia_id': incidenciaId.toString(),
+          'contenido': contenido,
+        }
+      );
+
+      return json.decode(response.body);
+
+  }
 }
