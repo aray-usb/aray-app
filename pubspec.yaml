@@ -22,7 +22,7 @@ dependencies:
 
   flutter_map: ^0.5.3 # Para la creación de mapas
   location: ^2.3.5 # Para la gestión de la ubicación de usuario
-  package_info: ^0.4.0+3 # Para mostrar información de versión del app en Créditos
+  package_info: ^0.4.0+4 # Para mostrar información de versión del app en Créditos
   font_awesome_flutter: ^8.4.0 # Para mostrar íconos de Font Awesome
   shared_preferences: any # Para el manejo del localstorage
 
