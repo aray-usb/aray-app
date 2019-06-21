@@ -1,34 +1,87 @@
 /// Módulo para el desarrollo del listado de incidencias
 
 import 'package:flutter/material.dart';
+import 'package:aray/models/incidencia.dart';
+import 'package:aray/services/api.dart';
+import 'package:aray/styles/colors.dart';
 
 /// Lista de incidencias en curso, a modo de tarjetas
-class IncidenceList extends StatelessWidget {
+class IncidenceList extends StatefulWidget {
 
-  // Cantidad de tarjetas a poner. Para calcular cantidad de divisiones
-  // al generar la lista de tarjetas.
-  final int _cardAmount = 10;
+  /// Servicio de la API
+  final APIService apiService;
 
-  // TODO: Cargar incidencias desde la API
+  IncidenceList(this.apiService);
+
   @override
-  Widget build(BuildContext context) {
-    return new ListView.builder(
+  _IncidenceListState createState() => _IncidenceListState(this.apiService);
+}
+
+class _IncidenceListState extends State<IncidenceList> {
+  /// Lista de incidencias obtenidas de la API
+  List<Incidencia> incidencias = <Incidencia>[];
+
+  /// Servicio de la API
+  final APIService apiService;
+
+  /// Para conocer si las incidencias ya fueron cargadas
+  bool incidenciasCargadas = false;
+
+  _IncidenceListState(this.apiService);
+
+  @override
+  void initState() {
+    super.initState();
+    fetchIncidencias();
+  }
+
+  /// Carga desde la API la lista de incidencias y actualiza el estado
+  /// del widget
+  fetchIncidencias() async {
+    this.incidencias = await this.apiService.getIncidencias();
+
+    setState(() {
+      this.incidenciasCargadas = true;
+    });
+  }
+
+  /// Determina qué incidencias están en curso
+  List<Incidencia> getIncidenciasEnCurso() =>
+    this.incidencias
+      .where((incidencia) => !incidencia.perteneceAHistorico)
+      .toList();
+
+  /// Determina qué incidencias pertenecen al histórico
+  List<Incidencia> getIncidenciasHistoricas() =>
+    this.incidencias
+      .where((incidencia) => incidencia.perteneceAHistorico)
+      .toList();
+
+  /// Dada una lista de incidencias, construye una vista con las mismas
+  Widget buildTab(incidencias) {
+
+    // Si no hay incidencias se muestra un mensaje apropiado
+    if (incidencias.length == 0) {
+      return Center(
+        child: Text("No hay incidencias de este tipo.")
+      );
+    }
+
+    return ListView.builder(
       padding: const EdgeInsets.all(8.0),
-      itemCount: 2*_cardAmount - 1,
+      itemCount: 2*incidencias.length - 1,
       itemBuilder: (context, i) {
         if (i.isOdd) return Divider();
+
+        final int index = i % 2;
 
         return Center(
           child: Card(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                const ListTile(
-                  leading: Icon(Icons.power),
-                  title: Text('Apagón Nacional'),
-                  subtitle: Text('Estatus: En curso.\nApagón confirmado en 20 estados.'),
-                ),
-                ButtonTheme.bar( // make buttons use the appropriate styles for cards
+                incidencias[index].tile,
+                ButtonTheme.bar(
                   child: ButtonBar(
                     children: <Widget>[
                       FlatButton(
@@ -43,6 +96,63 @@ class IncidenceList extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+
+  /// Construye la pestaña de incidencias en curso
+  Widget tabIncidenciasEnCurso() =>
+    this.buildTab(this.getIncidenciasEnCurso());
+
+  /// Construye la pestaña de incidencias históricas
+  Widget tabIncidenciasHistoricas() =>
+    this.buildTab(this.getIncidenciasHistoricas());
+
+  @override
+  Widget build(BuildContext context) {
+
+    // Se muestra un splash si las incidencias no han sido cargadas aún
+    if (!this.incidenciasCargadas) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(
+                ArayColors.primary,
+              ),
+            ),
+            Text('Cargando incidencias...')
+          ],
+        ),
+      );
+    }
+
+    // Si no hay ninguna incidencia, se muestra un mensaje apropiado
+    if (this.incidencias.length == 0) {
+      return Center(
+        child: Text("Aún no hay incidencias registradas. :-(")
+      );
+    }
+
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        bottomNavigationBar: BottomAppBar(
+          color: ArayColors.primary,
+          child: TabBar(
+            tabs: [
+              Tab(icon: Icon(Icons.directions_car)),
+              Tab(icon: Icon(Icons.directions_transit)),
+            ],
+          ),
+        ),
+        body: TabBarView(
+          children: [
+            this.tabIncidenciasEnCurso(),
+            this.tabIncidenciasHistoricas(),
+          ]
+        )
+      )
     );
   }
 }
