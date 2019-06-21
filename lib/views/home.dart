@@ -8,6 +8,7 @@ import 'package:aray/widgets/incidence_map.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong/latlong.dart';
 import 'package:location/location.dart';
+import 'package:aray/models/incidencia.dart';
 
 /// Vista inicial de Aray: despliega el mapa de incidencias, centrado
 /// en la ubicación del usuario (si es posible obtenerla) con los
@@ -28,6 +29,25 @@ class _HomePageState extends State<HomePage> {
   final _mapController = new MapController();
   final _locationManager = new Location();
   final _apiService = new APIService();
+
+  // Lista de incidencias y variable para conocer si ya se cargaron
+  List<Incidencia> incidencias = [];
+  bool incidenciasCargadas = false;
+
+  initState() {
+    super.initState();
+    fetchIncidencias();
+  }
+
+  /// Carga desde la API la lista de incidencias y actualiza el estado
+  /// del widget
+  fetchIncidencias() async {
+    this.incidencias = await this._apiService.getIncidencias();
+
+    setState(() {
+      this.incidenciasCargadas = true;
+    });
+  }
 
   /// Retorna la última ubicación conocida del usuario.
   /// INFO: Actualmente, solicita la ubicación de nuevo con poca precisión.
@@ -89,10 +109,16 @@ class _HomePageState extends State<HomePage> {
           heroTag: 'reporte',
           icon: Icon(Icons.perm_device_information),
           onPressed: () {
-            showDialog(
-              context: context,
-              builder: (BuildContext context) => ReporteForm(),
-            );
+            if (this.incidenciasCargadas) {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) => ReporteForm(
+                  this._apiService,
+                  this._locationManager,
+                  this.incidencias,
+                ),
+              );
+            }
           },
           label: Text("Reporte"),
           backgroundColor: Colors.orange,
