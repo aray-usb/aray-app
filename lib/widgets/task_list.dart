@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:aray/models/tarea.dart';
+import 'package:aray/widgets/tarea_form.dart';
 import 'package:aray/services/api.dart';
 import 'package:aray/styles/colors.dart';
 import 'package:aray/widgets/task_detail.dart';
@@ -58,6 +59,53 @@ class _TaskListState extends State<TaskList> {
       .where((incidencia) => incidencia.perteneceAHistorico)
       .toList();
 
+  /// Retorna los botones a mostrar en la lista de tareas
+  List<Widget> getBotones(Tarea tarea) {
+    List<Widget> lista = <Widget>[];
+
+    if (tarea.estado == Tarea.ESTADO_NUEVA) {
+      lista.add(
+        FlatButton(
+          child: const Text('EN PROGRESO'),
+          onPressed: () async {
+            await apiService.updateTask(tarea.id, Tarea.ESTADO_EN_PROGRESO);
+            setState(() {
+              this.tareasCargadas = false;
+            });
+            await fetchTareas();
+          },
+        ),
+      );
+    }
+
+    if (tarea.estado != Tarea.ESTADO_RESUELTA) {
+      lista.add(
+        FlatButton(
+          child: const Text('CULMINAR'),
+          onPressed: () async {
+            await apiService.updateTask(tarea.id, Tarea.ESTADO_RESUELTA);
+            setState(() {
+              this.tareasCargadas = false;
+            });
+            await fetchTareas();
+          },
+        )
+      );
+    }
+
+    lista.add(
+      FlatButton(
+        child: const Text('DETALLES'),
+        onPressed: () => showDialog(
+          context: context,
+          builder: (BuildContext context) => TaskDetail(tarea, apiService),
+        ),
+      )
+    );
+
+    return lista;
+  }
+
   /// Dada una lista de tareas, construye una vista con las mismas
   Widget buildTab(tareas) {
 
@@ -85,15 +133,7 @@ class _TaskListState extends State<TaskList> {
                 tarea.tile,
                 ButtonTheme.bar(
                   child: ButtonBar(
-                    children: <Widget>[
-                      FlatButton(
-                        child: const Text('VER DETALLES'),
-                        onPressed: () => showDialog(
-                          context: context,
-                          builder: (BuildContext context) => TaskDetail(tarea),
-                        ),
-                      ),
-                    ],
+                    children: getBotones(tarea),
                   ),
                 ),
               ],
@@ -156,7 +196,32 @@ class _TaskListState extends State<TaskList> {
             this.tabTareasEnCurso(),
             this.tabTareasHistoricas(),
           ]
-        )
+        ),
+        floatingActionButton: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            FloatingActionButton(
+              onPressed: () async {
+                setState(() {
+                  this.tareasCargadas = false;
+                });
+
+                await fetchTareas();
+              },
+              child: Icon(Icons.update),
+              backgroundColor: ArayColors.primary,
+            ),
+            FloatingActionButton(
+              onPressed: () => showDialog(
+                context: context,
+                builder: (BuildContext context) => TareaForm(apiService),
+              ),
+              child: Icon(Icons.add),
+              backgroundColor: ArayColors.primary,
+            ),
+          ],
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       )
     );
   }

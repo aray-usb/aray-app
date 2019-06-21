@@ -158,6 +158,49 @@ class APIService {
       );
 
       return json.decode(response.body);
+  }
 
+  /// Crea una nueva tarea en la plataforma
+  Future<dynamic> createTarea(
+    titulo,
+    descripcion,
+    fechaLimite
+  ) async {
+    String url = APIService.apiBaseUrl + 'tareas/';
+
+      // Esperamos la inicialización del cliente
+      await initClient();
+      final response = await this.client.post(
+        url,
+        body: {
+          'titulo': titulo.toString(),
+          'descripcion': descripcion.toString(),
+          'fecha_limite': fechaLimite.toString(),
+        }
+      );
+
+      return json.decode(response.body);
+  }
+
+  /// Actualiza el estado de una tarea en la plataforma
+  Future<dynamic> updateTask(
+    id,
+    newState
+  ) async {
+    String url = APIService.apiBaseUrl + 'actualizar-tarea/';
+
+      // Esperamos la inicialización del cliente
+      await initClient();
+      final response = await this.client.post(
+        url,
+        body: {
+          'id': id.toString(),
+          'estado': newState.toString(),
+        }
+      );
+
+      print(response.body);
+
+      return json.decode(response.body);
   }
 }
