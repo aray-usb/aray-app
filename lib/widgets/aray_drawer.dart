@@ -7,7 +7,27 @@ import 'package:aray/views/login.dart';
 
 /// Menú lateral de tipo Drawer. Contiene un esquema de navegación general
 /// de la aplicación y permite acceder a las distintas secciones.
-class ArayDrawer extends Drawer {
+class ArayDrawer extends StatefulWidget {
+
+  @override
+  _ArayDrawerState createState() => _ArayDrawerState();
+}
+
+class _ArayDrawerState extends State<ArayDrawer> {
+
+  String username = "";
+
+  initState() {
+    super.initState();
+    fetchUsername();
+  }
+
+  fetchUsername() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      username = prefs.getString('username');
+    });
+  }
 
   Future<void> logOut(BuildContext context) async {
     // Eliminamos el token del localStorage
@@ -27,8 +47,8 @@ class ArayDrawer extends Drawer {
         padding: EdgeInsets.zero,
         children: <Widget>[
           UserAccountsDrawerHeader(
-            accountName: Text("Fulanito"),
-            accountEmail: Text("fulanito@usb.ve"),
+            accountName: Text("$username"),
+            accountEmail: Text("¡Bienvenido a Aray!"),
           ),
           ListTile(
             title: Text('Inicio'),
