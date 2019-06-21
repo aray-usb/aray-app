@@ -2,6 +2,7 @@
 /// en un modal (Alert dialog).
 
 import 'package:flutter/material.dart';
+import 'package:aray/styles/colors.dart';
 
 class ReporteForm extends StatelessWidget {
 
@@ -26,8 +27,9 @@ class ReporteForm extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: RaisedButton(
+              child: FlatButton(
                 child: Text("Enviar Reporte"),
+                color: ArayColors.primary,
                 onPressed: () {
                   if (_formKey.currentState.validate()) {
                     _formKey.currentState.save();
