@@ -40,6 +40,7 @@ class AuthService {
       String token = responseJson['token'];
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString('token', token);
+      prefs.setString('username', username);
       return token;
     } catch (e) {
       // TODO: Handle custom exception
