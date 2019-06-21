@@ -9,6 +9,7 @@ import 'package:latlong/latlong.dart';
 import 'package:aray/env.dart';
 import 'package:aray/helpers/api.dart';
 import 'package:aray/models/reporte.dart';
+import 'package:aray/models/incidencia.dart';
 
 /// Proveedor de servicios para manejar la conexión entre la
 /// aplicación y la API de Aray.
@@ -95,4 +96,24 @@ class APIService {
     }
   }
 
+  /// Retorna una lista de incidencias registradas en la aplicación
+  Future<List<Incidencia>> getIncidencias() async {
+    String url = APIService.apiBaseUrl + 'incidencias/';
+
+    try {
+      // Esperamos la inicialización del cliente
+      await initClient();
+      final response = await this.client.get(url);
+      dynamic jsonObject = json.decode(response.body);
+      validateResponse(response.statusCode, jsonObject);
+
+      // Utilizamos el constructor a partir de una lista JSON de Incidencia
+      // para retornar la lista
+      return Incidencia.fromJsonList(jsonObject);
+    } catch (e) {
+      // TODO: Mejorar el manejo de errores del servicio.
+      print(e);
+      throw e;
+    }
+  }
 }
