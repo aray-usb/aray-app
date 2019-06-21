@@ -7,9 +7,16 @@ import 'package:flutter/material.dart';
 /// indicando información relevante.
 class ArayMarkers {
 
-  // Objeto genérico, para pruebas
+  // Objeto genérico para reportes
   static final Icon genericMarker = Icon(
     Icons.location_on,
+    size: 56,
+    color: Colors.orange,
+  );
+
+  // Objeto genérico de ayuda
+  static final Icon helpMarker = Icon(
+    Icons.arrow_downward,
     size: 56,
     color: Colors.red,
   );
