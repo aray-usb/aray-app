@@ -2,8 +2,8 @@
 /// el mapa de incidencias de Aray, incluyendo funciones auxiliares para
 /// mantener el estado y actualizar las incidencias, en caso de que ocurran.
 
+import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:aray/services/api.dart';
 import 'package:aray/styles/markers.dart';
 import 'package:aray/env.dart';
 import 'package:aray/models/reporte.dart';
@@ -73,6 +73,17 @@ class _IncidenceMapState extends State<IncidenceMap> {
     setState(() {
       this.markersAlreadyFetched = true;
     });
+
+    Timer.periodic(
+      Duration(seconds: 10),
+      (Timer t) async {
+        this.markers = await getMarkers();
+
+        setState(() {
+          this.markersAlreadyFetched = true;
+        });
+      }
+    );
   }
 
   /// Obtiene la ubicación del usuario, suscribiendo el mapa de incidencias a cualquier
