@@ -46,10 +46,11 @@ class ArayDrawer extends Drawer {
             },
           ),
           ListTile(
-            title: Text('Prevención'),
+            title: Text('Tareas'),
             leading: Icon(Icons.list),
             onTap: () {
               Navigator.pop(context);
+              Navigator.pushNamed(context, '/tareas');
             },
           ),
           Divider(),

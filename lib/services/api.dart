@@ -10,6 +10,8 @@ import 'package:aray/env.dart';
 import 'package:aray/helpers/api.dart';
 import 'package:aray/models/reporte.dart';
 import 'package:aray/models/incidencia.dart';
+import 'package:aray/models/tarea.dart';
+
 
 /// Proveedor de servicios para manejar la conexión entre la
 /// aplicación y la API de Aray.
@@ -115,6 +117,22 @@ class APIService {
       print(e);
       throw e;
     }
+  }
+
+  /// Retorna una lista de tareas registradas en la aplicación
+  Future<List<Tarea>> getTareas() async {
+    String url = APIService.apiBaseUrl + 'tareas/';
+
+      // Esperamos la inicialización del cliente
+      await initClient();
+      final response = await this.client.get(url);
+      dynamic jsonObject = json.decode(response.body);
+      validateResponse(response.statusCode, jsonObject);
+
+      // Utilizamos el constructor a partir de una lista JSON de Tarea
+      // para retornar la lista
+      print(jsonObject);
+      return Tarea.fromJsonList(jsonObject);
   }
 
   /// Crea un nuevo reporte en la plataforma

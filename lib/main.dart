@@ -3,6 +3,7 @@ import 'package:aray/views/login.dart';
 import 'package:aray/views/home.dart';
 import 'package:aray/views/credits.dart';
 import 'package:aray/views/incidences.dart';
+import 'package:aray/views/tasks.dart';
 import 'package:aray/styles/colors.dart';
 
 void main() => runApp(ArayApp());
@@ -21,6 +22,7 @@ class ArayApp extends StatelessWidget {
         '/login': (context) => LoginPage(),
         '/creditos': (context) => CreditsPage(),
         '/incidencias': (context) => IncidencesPage(),
+        '/tareas': (context) => TasksPage(),
       },
     );
   }
