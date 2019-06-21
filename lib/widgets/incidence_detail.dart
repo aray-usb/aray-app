@@ -30,7 +30,7 @@ class IncidenceDetail extends StatelessWidget {
           Divider(),
           Text("Latitud: ${incidencia.latitud}"),
           Text("Longitud: ${incidencia.longitud}"),
-          Text("Radio: ${incidencia.radio}m"),
+          Text("Radio (m): ${incidencia.radio != null ? incidencia.radio : 'Desconocido'}"),
           Divider(),
           Text("Fecha de Reporte: ${incidencia.fechaDeReporte.day}/${incidencia.fechaDeReporte.month}/${incidencia.fechaDeReporte.year}"),
           incidencia.fechaDeResolucion != null
