@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:aray/widgets/reporte_form.dart';
+import 'package:aray/widgets/ayuda_form.dart';
 import 'package:aray/services/api.dart';
 import 'package:aray/widgets/aray_drawer.dart';
 import 'package:aray/widgets/incidence_map.dart';
@@ -93,7 +94,16 @@ class _HomePageState extends State<HomePage> {
           heroTag: 'ayuda',
           icon: Icon(Icons.warning),
           onPressed: () {
-
+            if (this.incidenciasCargadas) {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) => AyudaForm(
+                  this._apiService,
+                  this._locationManager,
+                  this.incidencias,
+                ),
+              );
+            }
           },
           label: Text("Ayuda"),
           backgroundColor: Colors.red,
@@ -102,7 +112,7 @@ class _HomePageState extends State<HomePage> {
           heroTag: 'ubicar',
           child: Icon(Icons.my_location),
           onPressed: () => centrarMapa(),
-          tooltip: "Ayuda",
+          tooltip: "Centrar Mapa",
           backgroundColor: Colors.blue,
         ),
         FloatingActionButton.extended(
