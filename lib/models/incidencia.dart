@@ -98,7 +98,7 @@ class Incidencia {
   ListTile get tile => ListTile(
     leading: Icon(Icons.notification_important),
     title: Text('$nombre'),
-    subtitle: Text('Estatus: En curso.\n$descripcion'),
+    subtitle: Text('Estatus: ${Incidencia.NOMBRE_ESTADO[estado]}.\n$descripcion'),
   );
 
   /// Determina si una Incidencia debe pertenecer al histórico

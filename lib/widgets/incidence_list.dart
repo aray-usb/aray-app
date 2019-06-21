@@ -161,5 +161,3 @@ class _IncidenceListState extends State<IncidenceList> {
     );
   }
 }
-
-

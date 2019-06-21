@@ -34,7 +34,7 @@ class IncidenceDetail extends StatelessWidget {
           Divider(),
           Text("Fecha de Reporte: ${incidencia.fechaDeReporte.day}/${incidencia.fechaDeReporte.month}/${incidencia.fechaDeReporte.year}"),
           incidencia.fechaDeResolucion != null
-            ? Text("Fecha de Resolución: ${incidencia.fechaDeReporte.day}/${incidencia.fechaDeReporte.month}/${incidencia.fechaDeReporte.year}")
+            ? Text("Fecha de Resolución: ${incidencia.fechaDeResolucion.day}/${incidencia.fechaDeResolucion.month}/${incidencia.fechaDeResolucion.year}")
             : Text("No ha sido resuelta aún"),
           Padding(
             padding: const EdgeInsets.all(8.0),
