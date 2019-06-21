@@ -34,6 +34,9 @@ class Reporte {
   // Longitud del reporte
   final double longitud;
 
+  // Si el reporte es una solicitud de ayuda o no
+  final bool esSolicitudDeAyuda;
+
   Reporte({
     this.id,
     this.incidenciaId,
@@ -42,7 +45,8 @@ class Reporte {
     this.estado,
     this.fechaDeReporte,
     this.latitud,
-    this.longitud
+    this.longitud,
+    this.esSolicitudDeAyuda
   });
 
   /// Retorna una nueva instancia de Reporte a partir de un objeto JSON
@@ -55,7 +59,8 @@ class Reporte {
       estado: json['estado'],
       fechaDeReporte: DateTime.parse(json['fecha_de_reporte']),
       latitud: double.parse(json['latitud']),
-      longitud: double.parse(json['longitud'])
+      longitud: double.parse(json['longitud']),
+      esSolicitudDeAyuda: json['es_solicitud_de_ayuda']
     );
   }
 
@@ -80,7 +85,10 @@ class Reporte {
     point: this.posicion,
     builder: (ctx) => new Tooltip(
       child: new Container(
-        child: ArayMarkers.genericMarker,
+        child:
+          this.esSolicitudDeAyuda
+        ? ArayMarkers.helpMarker
+        : ArayMarkers.genericMarker
       ),
       message: this.toString(),
       excludeFromSemantics: true,

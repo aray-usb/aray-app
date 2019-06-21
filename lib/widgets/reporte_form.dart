@@ -1,4 +1,3 @@
-import 'package:aray/models/incidencia.dart';
 /// Módulo que contiene un formulario de reporte a desplegar
 /// en un modal (Alert dialog).
 
@@ -112,6 +111,7 @@ class _ReporteFormState extends State<ReporteForm> {
                       currentLocation.longitude,
                       incidenciaId,
                       contenidoController.text,
+                      false
                     );
                     setState(() {
                       formEnviado = true;

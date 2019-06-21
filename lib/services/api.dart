@@ -122,15 +122,10 @@ class APIService {
     latitud,
     longitud,
     incidenciaId,
-    contenido
+    contenido,
+    esAyuda
   ) async {
     String url = APIService.apiBaseUrl + 'reportes/';
-
-    print(latitud);
-    print(longitud);
-    print(incidenciaId);
-    print(contenido);
-
 
       // Esperamos la inicialización del cliente
       await initClient();
@@ -141,6 +136,7 @@ class APIService {
           'longitud': longitud.toString(),
           'incidencia_id': incidenciaId.toString(),
           'contenido': contenido,
+          'es_solicitud_de_ayuda': esAyuda.toString(),
         }
       );
 
