@@ -45,6 +45,18 @@ class _LoginPageState extends State<LoginPage>
   // Focus Node para el campo de nombre de usuario al registrarse
   final FocusNode registerUsernameFocusNode = FocusNode();
 
+  // Focus Node para el campo de nombre al registrarse
+  final FocusNode registerFirstNameFocusNode = FocusNode();
+
+  // Focus Node para el campo de apellido al registrarse
+  final FocusNode registerLastNameFocusNode = FocusNode();
+
+  // Focus Node para el campo de teléfono al registrarse
+  final FocusNode registerPhoneFocusNode = FocusNode();
+
+  // Focus Node para el campo de doc. de identidad al registrarse
+  final FocusNode registerDocumentFocusNode = FocusNode();
+
   // Focus Node para el campo de correo electrónico al registrarse
   final FocusNode registerEmailFocusNode = FocusNode();
 
@@ -60,6 +72,18 @@ class _LoginPageState extends State<LoginPage>
   // Controlador de estado para el campo de nombre de usuario al registrarse
   TextEditingController registerUsernameController = TextEditingController();
 
+  // Controlador de estado para el campo de nombre de usuario al registrarse
+  TextEditingController registerFirstNameController = TextEditingController();
+
+  // Controlador de estado para el campo de nombre de usuario al registrarse
+  TextEditingController registerLastNameController = TextEditingController();
+
+  // Controlador de estado para el campo de nombre de usuario al registrarse
+  TextEditingController registerPhoneController = TextEditingController();
+
+  // Controlador de estado para el campo de nombre de usuario al registrarse
+  TextEditingController registerDocumentController = TextEditingController();
+
   // Controlador de estado para el campo de correo electrónico al registrarse
   TextEditingController registerEmailController = TextEditingController();
 
@@ -74,9 +98,6 @@ class _LoginPageState extends State<LoginPage>
 
   // Determina si se oculta el texto de la contraseña al registrarse
   bool _obscureRegisterPassword = true;
-
-  // Determina si se oculta el texto de la confirmación de contraseña al registrarse
-  bool _obscureRegisterPasswordConfirm = true;
 
   // Color del texto de la pestaña izquierda
   Color leftButtonColor = Colors.black;
@@ -118,9 +139,9 @@ class _LoginPageState extends State<LoginPage>
           child: SingleChildScrollView(
             child: Container(
               width: MediaQuery.of(context).size.width, // Full width del dispositivo
-              height: MediaQuery.of(context).size.width >= 775.0
-                ? MediaQuery.of(context).size.width
-                : 775.0, // Height máximo
+              height: MediaQuery.of(context).size.height >= 1010.0
+                ? MediaQuery.of(context).size.height
+                : 1010.0, // Height mínimo
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: ArayColors.primaryGradientColors,
@@ -353,7 +374,7 @@ class _LoginPageState extends State<LoginPage>
               ),
               child: Container(
                 width: 300.0,
-                height: 360.0,
+                height: 620.0,
                 child: Column(
                   children: <Widget>[
                     Padding(
@@ -453,27 +474,101 @@ class _LoginPageState extends State<LoginPage>
                         right: 25.0,
                       ),
                       child: TextField(
-                        controller: registerPasswordConfirmController,
-                        obscureText: _obscureRegisterPasswordConfirm,
+                        focusNode: registerFirstNameFocusNode,
+                        controller: registerFirstNameController,
+                        keyboardType: TextInputType.text,
                         style: textFieldStyle,
                         decoration: InputDecoration(
                           border: InputBorder.none,
                           icon: Icon(
-                            FontAwesomeIcons.lock,
+                            FontAwesomeIcons.idBadge,
                             color: Colors.black,
                           ),
-                          hintText: "Confirmación",
+                          hintText: "Nombre",
                           hintStyle: TextStyle(
                             fontFamily: "WorkSansSemiBold",
                             fontSize: 16.0,
                           ),
-                          suffixIcon: GestureDetector(
-                            onTap: _toggleRegisterPasswordConfirmVisibility,
-                            child: Icon(
-                              FontAwesomeIcons.eye,
-                              size: 15.0,
-                              color: Colors.black,
-                            ),
+                        ),
+                      ),
+                    ),
+                    _divider,
+                    Padding(
+                      padding: EdgeInsets.only(
+                        top: 20.0,
+                        bottom: 20.0,
+                        left: 25.0,
+                        right: 25.0,
+                      ),
+                      child: TextField(
+                        focusNode: registerLastNameFocusNode,
+                        controller: registerLastNameController,
+                        keyboardType: TextInputType.text,
+                        style: textFieldStyle,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          icon: Icon(
+                            FontAwesomeIcons.idBadge,
+                            color: Colors.black,
+                          ),
+                          hintText: "Apellido",
+                          hintStyle: TextStyle(
+                            fontFamily: "WorkSansSemiBold",
+                            fontSize: 16.0,
+                          ),
+                        ),
+                      ),
+                    ),
+                    _divider,
+                    Padding(
+                      padding: EdgeInsets.only(
+                        top: 20.0,
+                        bottom: 20.0,
+                        left: 25.0,
+                        right: 25.0,
+                      ),
+                      child: TextField(
+                        focusNode: registerDocumentFocusNode,
+                        controller: registerDocumentController,
+                        keyboardType: TextInputType.number,
+                        style: textFieldStyle,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          icon: Icon(
+                            FontAwesomeIcons.userAlt,
+                            color: Colors.black,
+                          ),
+                          hintText: "Cédula",
+                          hintStyle: TextStyle(
+                            fontFamily: "WorkSansSemiBold",
+                            fontSize: 16.0,
+                          ),
+                        ),
+                      ),
+                    ),
+                    _divider,
+                    Padding(
+                      padding: EdgeInsets.only(
+                        top: 20.0,
+                        bottom: 20.0,
+                        left: 25.0,
+                        right: 25.0,
+                      ),
+                      child: TextField(
+                        focusNode: registerPhoneFocusNode,
+                        controller: registerPhoneController,
+                        keyboardType: TextInputType.number,
+                        style: textFieldStyle,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          icon: Icon(
+                            FontAwesomeIcons.phone,
+                            color: Colors.black,
+                          ),
+                          hintText: "Teléfono",
+                          hintStyle: TextStyle(
+                            fontFamily: "WorkSansSemiBold",
+                            fontSize: 16.0,
                           ),
                         ),
                       ),
@@ -483,7 +578,7 @@ class _LoginPageState extends State<LoginPage>
               ),
             ),
             Container(
-              margin: EdgeInsets.only(top: 340.0),
+              margin: EdgeInsets.only(top: 590.0),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(5.0)),
                 boxShadow: ArayColors.primaryGradientBoxShadows,
@@ -513,8 +608,70 @@ class _LoginPageState extends State<LoginPage>
                   ),
                 ),
                 onPressed: () {
-                  // TODO: Logica de registro
-                  showInSnackBar("Registro presionado");
+                  final String username = registerUsernameController.text;
+                  final String password = registerPasswordController.text;
+                  final String email = registerEmailController.text;
+                  final String phone = registerPhoneController.text;
+                  final String document = registerDocumentController.text;
+                  final String firstName = registerFirstNameController.text;
+                  final String lastName = registerLastNameController.text;
+
+                  if (username == "") {
+                    showInSnackBar("Usuario es obligatorio.");
+                    return;
+                  } else if (password == "") {
+                    showInSnackBar("La contraseña es obligatoria.");
+                    return;
+                  } else if (email == "") {
+                    showInSnackBar("El email es obligatorio.");
+                    return;
+                  } else if (firstName == "") {
+                    showInSnackBar("El nombre es obligatorio.");
+                    return;
+                  } else if (lastName == "") {
+                    showInSnackBar("El apellido es obligatorio.");
+                    return;
+                  } else if (phone == "") {
+                    showInSnackBar("El teléfono es obligatorio.");
+                    return;
+                  } else if (document == "") {
+                    showInSnackBar("La cédula es obligatoria.");
+                    return;
+                  }
+
+                  try {
+                    final registroValido = authService.registerUser(
+                      username,
+                      password,
+                      email,
+                      firstName,
+                      lastName,
+                      phone,
+                      document
+                    );
+
+                    registroValido.then((reg) {
+                      if (!reg) {
+                        showInSnackBar("Ocurrió un error con el registro.");
+                      } else {
+                        final token = authService.getToken(username, password);
+                        token.then((tk) {
+                          if (tk != null) {
+                            Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                builder: (BuildContext context) => HomePage()
+                              )
+                            );
+                          } else {
+                            showInSnackBar("Ocurrió un error de autenticación.");
+                          }
+                        });
+                      }
+                    });
+                  } catch (e) {
+                    print(e);
+                    showInSnackBar("Ocurrió un error de servidor.");
+                  }
                 }
               ),
             )
@@ -603,13 +760,6 @@ class _LoginPageState extends State<LoginPage>
   void _toggleRegisterPasswordVisibility() {
     setState(() {
       _obscureRegisterPassword = !_obscureRegisterPassword;
-    });
-  }
-
-  /// Maneja la interacción para mostrar u ocultar confirmación de contraseña en el Registro
-  void _toggleRegisterPasswordConfirmVisibility() {
-    setState(() {
-      _obscureRegisterPasswordConfirm = !_obscureRegisterPasswordConfirm;
     });
   }
 

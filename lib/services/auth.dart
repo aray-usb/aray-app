@@ -14,6 +14,47 @@ class AuthService {
   // URL base de la API, sacada del entorno
   static final apiBaseUrl = ENV['API_BASE_URL'];
 
+  /// Dados los datos de un usuario, registra el usuario en el servidor
+  Future<bool> registerUser(
+    String username,
+    String password,
+    String email,
+    String firstName,
+    String lastName,
+    String phone,
+    String document
+  ) async {
+    final url = AuthService.apiBaseUrl + 'registro/';
+
+    try {
+      // Emitimos la petición con las credenciales pasadas
+      final response = await http.post(
+        url,
+        body: {
+          'username': username,
+          'password': password,
+          'first_name': firstName,
+          'last_name': lastName,
+          'email': email,
+          'phone': phone,
+          'document': document,
+        }
+      );
+
+      if (response.statusCode != 200 && response.statusCode != 201) {
+        // TODO: Handle custom exception
+        return false;
+      }
+
+      return true;
+    } catch (e) {
+      // TODO: Handle custom exception
+      print(e);
+      throw e;
+    }
+
+  }
+
   /// Dados un nombre de usuario y contraseña, permite obtener y almacenar
   /// en el localStorage un token de autenticación.
   Future<String> getToken(String username, String password) async {

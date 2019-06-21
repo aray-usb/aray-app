@@ -131,7 +131,6 @@ class APIService {
 
       // Utilizamos el constructor a partir de una lista JSON de Tarea
       // para retornar la lista
-      print(jsonObject);
       return Tarea.fromJsonList(jsonObject);
   }
 
