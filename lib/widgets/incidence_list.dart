@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:aray/models/incidencia.dart';
 import 'package:aray/services/api.dart';
 import 'package:aray/styles/colors.dart';
+import 'package:aray/widgets/incidence_detail.dart';
 
 /// Lista de incidencias en curso, a modo de tarjetas
 class IncidenceList extends StatefulWidget {
@@ -74,19 +75,23 @@ class _IncidenceListState extends State<IncidenceList> {
         if (i.isOdd) return Divider();
 
         final int index = i % 2;
+        final Incidencia incidencia = incidencias[index];
 
         return Center(
           child: Card(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                incidencias[index].tile,
+                incidencia.tile,
                 ButtonTheme.bar(
                   child: ButtonBar(
                     children: <Widget>[
                       FlatButton(
                         child: const Text('VER DETALLES'),
-                        onPressed: () { /* ... */ },
+                        onPressed: () => showDialog(
+                          context: context,
+                          builder: (BuildContext context) => IncidenceDetail(incidencia),
+                        ),
                       ),
                     ],
                   ),
@@ -141,8 +146,8 @@ class _IncidenceListState extends State<IncidenceList> {
           color: ArayColors.primary,
           child: TabBar(
             tabs: [
-              Tab(icon: Icon(Icons.directions_car)),
-              Tab(icon: Icon(Icons.directions_transit)),
+              Tab(icon: Icon(Icons.list)),
+              Tab(icon: Icon(Icons.history)),
             ],
           ),
         ),
