@@ -61,7 +61,7 @@ class _CreditsBoxState extends State<CreditsBox> {
             textAlign: TextAlign.center
           ),
           Text(
-            'Enero - Mayo 2019',
+            'Enero - Junio 2019',
             textAlign: TextAlign.center
           ),
           Divider(color: Colors.transparent),
