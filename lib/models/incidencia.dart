@@ -14,6 +14,15 @@ class Incidencia {
   static const ESTADO_ATENDIDA = 2;
   static const ESTADO_RESUELTA = 3;
 
+  // Nombres de los posibles estados
+  static const NOMBRE_ESTADO = {
+    ESTADO_RECHAZADA: "Rechazada",
+    ESTADO_NUEVA: "Nueva",
+    ESTADO_CONFIRMADA: "Confirmada",
+    ESTADO_ATENDIDA: "Atendida",
+    ESTADO_RESUELTA: "Resuelta",
+  };
+
   // ID numérico de la incidencia
   final int id;
 
